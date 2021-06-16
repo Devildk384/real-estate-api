@@ -60,8 +60,11 @@ exports.read = (req, res) => {
   const slug = req.params.slug.toLowerCase();
   Property.findOne({ slug })
     // .select("-photo")
-    .populate("project_by", "name")
-    .populate("project_amenities", "amenity")
+    .populate("project_by status type", "name property_status property_type")
+    .populate(
+      "project_amenities floor_plan_size",
+      "amenity property_floor_size"
+    )
 
     // .select("title location rera_number address price slug  type group createdAt ")
     .exec((err, data) => {
@@ -115,20 +118,38 @@ exports.list = (req, res) => {
 };
 
 exports.listSearch = (req, res) => {
-  console.log(req.query);
-  const { query, area } = req.query;
+  // console.log(req.query);
+  // const { query, area } = req.query;
+  // console.log(query);
+  // console.log(area);
+  const query = {};
   console.log(query);
-  console.log(area);
+
+  if (req.query.search) {
+    query.title = { $regex: req.query.search, $options: "i" };
+
+    // assigne category value to query.category
+    if (req.query.city && req.query.city != "All") {
+      query.city = req.query.city;
+
+      if (req.query.type && req.query.type != "All") {
+        query.type = req.query.type;
+      }
+    }
+  }
+
+  console.log(query);
 
   Property.find(
-    {
-      $or: [
-        { title: { $regex: query, $options: "i" } },
-        { project_group: { $regex: area, $options: "i" } },
+    query,
+    // {
+    //   $or: [
+    //     { title: { $regex: query, $options: "i" } },
+    //     { project_group: { $regex: area, $options: "i" } },
 
-        // { city: { $regex: query, $options: "i" } },
-      ],
-    },
+    //     // { city: { $regex: query, $options: "i" } },
+    //   ],
+    // },
     (err, property) => {
       if (err) {
         return err;

@@ -25,6 +25,7 @@ const propertyTypeRoutes = require("./routes/property_type");
 const propertyAmenityRoutes = require("./routes/property_amenities");
 const propertyStatusRoutes = require("./routes/property_status");
 const propertyFloorSizeRoutes = require("./routes/property_floor_size");
+const adminAuth = require("./routes/admin_auth");
 
 //db
 mongoose
@@ -57,6 +58,7 @@ app.use("/api", propertyTypeRoutes);
 app.use("/api", propertyAmenityRoutes);
 app.use("/api", propertyStatusRoutes);
 app.use("/api", propertyFloorSizeRoutes);
+app.use("/api", adminAuth);
 
 //use this to show the image you have in node js server to client (react js)
 app.use("/uploads", express.static("uploads"));

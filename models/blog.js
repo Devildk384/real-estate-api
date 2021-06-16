@@ -36,6 +36,10 @@ const blogSchema = new mongoose.Schema(
       type: ObjectId,
       ref: "Admin",
     },
+    approvedbyAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

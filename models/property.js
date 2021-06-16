@@ -9,6 +9,10 @@ const propertySchema = new mongoose.Schema(
       type: ObjectId,
       ref: "Admin",
     },
+    approvedbyAdmin: {
+      type: Boolean,
+      default: false,
+    },
     title: {
       type: String,
       trim: true,
@@ -32,8 +36,8 @@ const propertySchema = new mongoose.Schema(
       ref: "PropertyType",
     },
     status: {
-      type: String,
-      trim: true,
+      type: ObjectId,
+      ref: "PropertyStatus",
     },
     slug: {
       type: String,
@@ -124,8 +128,8 @@ const propertySchema = new mongoose.Schema(
           trim: true,
         },
         floor_plan_size: {
-          type: String,
-          trim: true,
+          type: ObjectId,
+          ref: "PropertyFloorSize",
         },
         floor_plan_area: {
           type: Number,
